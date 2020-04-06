@@ -1,2 +1,2 @@
-# fluent.java
-A Java implementation of ProjectFluent
+# javidaloca
+Java bindings for the ProjectFluent rust implementation
