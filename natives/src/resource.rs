@@ -6,6 +6,7 @@ use jni::sys::jobject;
 use crate::surrender_rust_pointer;
 use std::ptr::null_mut;
 
+#[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentResource_tryNew(
     env: JNIEnv,
     class: JClass,
@@ -23,7 +24,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentResource_tryNew(
             object.into_inner()
         }
         Err(result) => {
-            // TODO use errors
+            // TODO use errors properly
             let (resource, errors) = result;
             env.throw_new("java/lang/RuntimeException",
                           "Something went wrong while parsing").unwrap();

@@ -196,6 +196,7 @@ name = "natives"
 version = "0.1.0"
 dependencies = [
  "fluent",
+ "fluent-bundle",
  "jni",
 ]
 

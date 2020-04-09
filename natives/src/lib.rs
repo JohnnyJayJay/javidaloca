@@ -4,6 +4,7 @@ use std::sync::MutexGuard;
 use fluent::FluentResource;
 
 mod resource;
+mod value;
 
 // TODO check if this works with type parameters (at runtime)
 #[no_mangle]

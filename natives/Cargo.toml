@@ -9,6 +9,7 @@ edition = "2018"
 [dependencies]
 jni = "0.16.0"
 fluent = "0.11.0"
+fluent-bundle = "0.11.0"
 
 [lib]
 crate_type = ["cdylib"]
