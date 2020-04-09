@@ -13,6 +13,8 @@ import java.nio.file.Path;
  */
 public final class FluentResource extends RustObject {
 
+  private FluentResource() {}
+
   public static FluentResource from(Path file) throws IOException {
     return from(file, StandardCharsets.UTF_8);
   }

@@ -12,12 +12,13 @@ pub extern "system" fn Java_io_github_javidaloca_FluentResource_tryNew(
     source: JString
 ) -> jobject {
     let source = env.get_string(source)
+        .map(|s| s.to_str())
+        .map(|s| String::from(s))
         .expect("Could not convert Java string to rust string");
-    let result = FluentResource::try_new(
-        source.to_str().map(|s| String::from(s)).unwrap());
+    let result = FluentResource::try_new(source);
     match result {
         Ok(resource) => {
-            let object = env.new_object(class, "V", &[])
+            let object = env.new_object(class, "()V", &[])
                 .unwrap();
             surrender_rust_pointer(&env, &object, resource);
             object.into_inner()

@@ -12,7 +12,7 @@ public abstract class RustObject {
   private native void surrender();
 
   @Override
-  protected void finalize() {
+  protected final void finalize() {
     surrender();
   }
 }
