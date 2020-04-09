@@ -12,10 +12,9 @@ pub extern "system" fn Java_io_github_javidaloca_FluentResource_tryNew(
     source: JString
 ) -> jobject {
     let source = env.get_string(source)
-        .map(|s| s.to_str())
-        .map(|s| String::from(s))
         .expect("Could not convert Java string to rust string");
-    let result = FluentResource::try_new(source);
+    let result = FluentResource::try_new(
+        source.to_str().map(|s| String::from(s)).unwrap());
     match result {
         Ok(resource) => {
             let object = env.new_object(class, "()V", &[])
