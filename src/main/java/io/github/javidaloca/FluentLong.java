@@ -12,5 +12,10 @@ public final class FluentLong extends FluentValue {
     bind(value);
   }
 
+  public static FluentLong of(long value) {
+    return new FluentLong(value);
+  }
+
   private native void bind(long value);
+
 }

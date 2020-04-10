@@ -12,5 +12,9 @@ public final class FluentInt extends FluentValue {
     bind(value);
   }
 
+  public static FluentInt of(int value) {
+    return new FluentInt(value);
+  }
+
   private native void bind(int value);
 }

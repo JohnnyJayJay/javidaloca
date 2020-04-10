@@ -12,5 +12,9 @@ public final class FluentString extends FluentValue {
     bind(value);
   }
 
+  public static FluentString of(String value) {
+    return new FluentString(value);
+  }
+
   private native void bind(String value);
 }

@@ -12,5 +12,9 @@ public final class FluentDouble extends FluentValue {
     bind(value);
   }
 
+  public static FluentDouble of(double value) {
+    return new FluentDouble(value);
+  }
+
   private native void bind(double value);
 }

@@ -1,10 +1,7 @@
 use fluent_bundle::FluentResource;
 use jni::JNIEnv;
-use jni::objects::{JClass, JString, JObject};
-use jni::sys::jobject;
-
+use jni::objects::{JString, JObject};
 use crate::surrender_rust_pointer;
-use std::ptr::null_mut;
 
 #[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentResource_bind(
