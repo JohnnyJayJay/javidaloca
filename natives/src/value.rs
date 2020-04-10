@@ -21,7 +21,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentString_of(
 
 #[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentInt_of(
-    env: JNIEnv<'static>,
+    env: JNIEnv,
     class: JClass,
     value: JValue,
 ) -> jobject {
@@ -30,7 +30,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentInt_of(
 
 #[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentLong_of(
-    env: JNIEnv<'static>,
+    env: JNIEnv,
     class: JClass,
     value: JValue,
 ) -> jobject {
@@ -39,7 +39,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentLong_of(
 
 #[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentDouble_of(
-    env: JNIEnv<'static>,
+    env: JNIEnv,
     class: JClass,
     value: JValue,
 ) -> jobject {
