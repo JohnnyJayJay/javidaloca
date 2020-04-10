@@ -1,8 +1,6 @@
-use fluent_bundle::{FluentArgs, FluentBundle, FluentValue};
-use fluent_bundle::types::{FluentNumber, FluentType};
+use fluent_bundle::FluentValue;
 use jni::JNIEnv;
-use jni::objects::{JClass, JObject, JString, JValue};
-use jni::sys::jobject;
+use jni::objects::{JObject, JString, JValue};
 
 use crate::surrender_rust_pointer;
 
