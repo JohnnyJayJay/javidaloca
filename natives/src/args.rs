@@ -22,8 +22,9 @@ pub extern "system" fn Java_io_github_javidaloca_FluentArgs_insert(
     let mut args = get_rust_pointer::<FluentArgs>(&env, &this);
     let parameter = env.get_string(parameter)
         .expect("Could not convert Java String to Rust String");
+
     let parameter = String::from(parameter.to_str().unwrap());
     let value = get_rust_pointer::<FluentValue>(&env, &value).clone();
-    // FIXME
+    // FIXME fluent issue? insert String instead of &str
     args.insert(&*parameter, value);
 }
