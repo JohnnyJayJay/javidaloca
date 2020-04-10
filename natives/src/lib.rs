@@ -1,7 +1,6 @@
 use jni::JNIEnv;
 use jni::objects::JObject;
 use std::sync::MutexGuard;
-use fluent::FluentResource;
 
 mod resource;
 mod value;

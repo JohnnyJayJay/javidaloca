@@ -8,8 +8,7 @@ edition = "2018"
 
 [dependencies]
 jni = "0.16.0"
-fluent = "0.11.0"
-fluent-bundle = "0.11.0"
+fluent-bundle = { git = "https://github.com/zbraniecki/fluent-rs", branch = "custom-send" }
 
 [lib]
 crate_type = ["cdylib"]

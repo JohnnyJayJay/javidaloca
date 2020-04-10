@@ -1,4 +1,4 @@
-use fluent::FluentResource;
+use fluent_bundle::FluentResource;
 use jni::JNIEnv;
 use jni::objects::{JClass, JString};
 use jni::sys::jobject;

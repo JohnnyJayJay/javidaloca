@@ -82,20 +82,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "fluent"
-version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ebe7532e1e5146a909de9e019e31835a84b5dee3eeb234561e525844f3cf3bf"
-dependencies = [
- "fluent-bundle",
- "unic-langid",
-]
-
-[[package]]
 name = "fluent-bundle"
 version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "27ade33328521266c81cc0924523988f43ccd7359f64689a1b6e818afca3a646"
+source = "git+https://github.com/zbraniecki/fluent-rs?branch=custom-send#533737b2faa662adcc2b9b410c705d801e55b1f8"
 dependencies = [
  "fluent-langneg",
  "fluent-syntax",
@@ -118,8 +107,7 @@ dependencies = [
 [[package]]
 name = "fluent-syntax"
 version = "0.9.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac0f7e83d14cccbf26e165d8881dcac5891af0d85a88543c09dd72ebd31d91ba"
+source = "git+https://github.com/zbraniecki/fluent-rs?branch=custom-send#533737b2faa662adcc2b9b410c705d801e55b1f8"
 
 [[package]]
 name = "fxhash"
@@ -133,8 +121,7 @@ dependencies = [
 [[package]]
 name = "intl-memoizer"
 version = "0.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9867e2d65d82936ef34217ed0f87b639a94384e93a0676158142c861c705391f"
+source = "git+https://github.com/zbraniecki/fluent-rs?branch=custom-send#533737b2faa662adcc2b9b410c705d801e55b1f8"
 dependencies = [
  "type-map",
  "unic-langid",
@@ -195,7 +182,6 @@ checksum = "3728d817d99e5ac407411fa471ff9800a778d88a24685968b36824eaf4bee400"
 name = "natives"
 version = "0.1.0"
 dependencies = [
- "fluent",
  "fluent-bundle",
  "jni",
 ]
