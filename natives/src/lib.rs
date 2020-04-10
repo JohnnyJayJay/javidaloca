@@ -4,6 +4,7 @@ use std::sync::MutexGuard;
 
 mod resource;
 mod value;
+mod args;
 
 // TODO check if this works with type parameters (at runtime)
 #[no_mangle]

@@ -13,7 +13,14 @@ import java.nio.file.Path;
  */
 public final class FluentResource extends RustObject {
 
-  private FluentResource() {}
+  private final String source;
+
+  private FluentResource(String source) {
+    this.source = source;
+    bind(source);
+  }
+
+  private native void bind(String source);
 
   public static FluentResource from(Path file) throws IOException {
     return from(file, StandardCharsets.UTF_8);
@@ -36,14 +43,12 @@ public final class FluentResource extends RustObject {
     return from(bytes.toByteArray(), charset);
   }
 
-  private static FluentResource from(byte[] bytes, Charset charset) {
+  public static FluentResource from(byte[] bytes, Charset charset) {
     return from(new String(bytes, charset));
   }
 
   public static FluentResource from(String source) {
-    return tryNew(source);
+    return new FluentResource(source);
   }
-
-  private static native FluentResource tryNew(String source);
 
 }
