@@ -1,5 +1,5 @@
 use fluent_bundle::{FluentArgs, FluentBundle, FluentValue};
-use fluent_bundle::types::FluentNumber;
+use fluent_bundle::types::{FluentNumber, FluentType};
 use jni::JNIEnv;
 use jni::objects::{JClass, JObject, JString, JValue};
 use jni::sys::jobject;
@@ -7,56 +7,40 @@ use jni::sys::jobject;
 use crate::surrender_rust_pointer;
 
 #[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_FluentString_of(
+pub extern "system" fn Java_io_github_javidaloca_FluentString_bind(
     env: JNIEnv,
-    class: JClass,
+    fluent_string: JObject,
     value: JString,
-) -> jobject {
+) {
     let string = env.get_string(value)
         .expect("Could not convert Java string");
     let string = string.to_str().unwrap();
-    of(&env, class, JValue::from(value),
-       "Ljava/lang/String;", FluentValue::from(String::from(string)))
+    surrender_rust_pointer(&env, &fluent_string, FluentValue::from(String::from(string)));
 }
 
 #[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_FluentInt_of(
+pub extern "system" fn Java_io_github_javidaloca_FluentInt_bind(
     env: JNIEnv,
-    class: JClass,
+    fluent_int: JObject,
     value: JValue,
-) -> jobject {
-    of(&env, class, value, "I", FluentValue::from(value.i().unwrap()))
+) {
+    surrender_rust_pointer(&env, &fluent_int, FluentValue::from(value.i().unwrap()));
 }
 
 #[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_FluentLong_of(
+pub extern "system" fn Java_io_github_javidaloca_FluentLong_bind(
     env: JNIEnv,
-    class: JClass,
+    fluent_long: JObject,
     value: JValue,
-) -> jobject {
-    of(&env, class, value, "J", FluentValue::from(value.j().unwrap()))
+) {
+    surrender_rust_pointer(&env, &fluent_long, FluentValue::from(value.j().unwrap()))
 }
 
 #[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_FluentDouble_of(
+pub extern "system" fn Java_io_github_javidaloca_FluentDouble_bind(
     env: JNIEnv,
-    class: JClass,
+    fluent_double: JObject,
     value: JValue,
-) -> jobject {
-    of(&env, class, value, "D", FluentValue::from(value.d().unwrap()))
-}
-
-
-fn of(
-    env: &JNIEnv,
-    class: JClass,
-    jvalue: JValue,
-    name: &str,
-    fluent_value: FluentValue<'static>
-) -> jobject {
-    let object = env.new_object(
-        class, format!("{}V", name), &[jvalue],
-    ).unwrap();
-    surrender_rust_pointer(&env, &object, fluent_value);
-    object.into_inner()
+) {
+    surrender_rust_pointer(&env, &fluent_double, FluentValue::from(value.d().unwrap()))
 }

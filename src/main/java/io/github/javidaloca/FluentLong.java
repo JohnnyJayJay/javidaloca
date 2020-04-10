@@ -9,7 +9,8 @@ public final class FluentLong extends FluentValue {
 
   private FluentLong(long value) {
     this.value = value;
+    bind(value);
   }
 
-  public static native FluentLong of(long value);
+  private native void bind(long value);
 }

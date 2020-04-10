@@ -9,7 +9,8 @@ public final class FluentDouble extends FluentValue {
 
   private FluentDouble(double value) {
     this.value = value;
+    bind(value);
   }
 
-  public static native FluentDouble of(double value);
+  private native void bind(double value);
 }

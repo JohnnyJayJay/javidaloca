@@ -9,7 +9,8 @@ public final class FluentInt extends FluentValue {
 
   private FluentInt(int value) {
     this.value = value;
+    bind(value);
   }
 
-  public static native FluentInt of(int value);
+  private native void bind(int value);
 }
