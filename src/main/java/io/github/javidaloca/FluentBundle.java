@@ -17,6 +17,8 @@ public final class FluentBundle extends RustObject {
 
   private native void bind(List<Locale> locales);
 
+  public native void addResourceOverriding(FluentResource resource);
+
   public native void addResource(FluentResource resource);
 
   public native boolean hasMessage(String id);

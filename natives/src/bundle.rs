@@ -44,6 +44,18 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResource(
 }
 
 #[no_mangle]
+pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResourceOverriding(
+    env: JNIEnv,
+    this: JObject,
+    resource: JObject,
+) {
+    let mut bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
+    let resource = get_rust_pointer::<FluentResource>(&env, &resource);
+    // FIXME illegal move out of resource (copy/clone it somehow to fix)
+    bundle.add_resource_overriding(*resource);
+}
+
+#[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentBundle_hasMessage(
     env: JNIEnv,
     this: JObject,
