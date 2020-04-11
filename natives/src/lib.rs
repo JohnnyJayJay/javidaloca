@@ -2,11 +2,10 @@ use jni::JNIEnv;
 use jni::objects::{JObject, JString, JValue, JThrowable};
 use std::sync::MutexGuard;
 use unic_langid::LanguageIdentifier;
-use fluent_bundle::FluentError;
+use fluent::FluentError;
 
 mod resource;
 mod value;
-mod args;
 mod bundle;
 
 // TODO check if this works with type parameters (at runtime)

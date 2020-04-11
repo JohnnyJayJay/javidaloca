@@ -21,11 +21,11 @@ public final class FluentBundle extends RustObject {
 
   public native boolean hasMessage(String id);
 
-  public Optional<String> formatMessage(String id, FluentArgs arguments) {
+  public Optional<String> formatMessage(String id, Map<String, ? extends FluentValue> arguments) {
     return Optional.ofNullable(formatMessageRs(id, arguments));
   }
 
-  private native String formatMessageRs(String id, FluentArgs arguments);
+  private native String formatMessageRs(String id, Map<String, ? extends FluentValue> arguments);
 
   public static FluentBundle create(Locale... locales) {
     return create(Arrays.asList(locales));

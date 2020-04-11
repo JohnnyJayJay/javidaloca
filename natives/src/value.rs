@@ -1,4 +1,4 @@
-use fluent_bundle::FluentValue;
+use fluent::FluentValue;
 use jni::JNIEnv;
 use jni::objects::{JObject, JString, JValue};
 

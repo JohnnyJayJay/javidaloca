@@ -1,4 +1,4 @@
-use fluent_bundle::FluentResource;
+use fluent::FluentResource;
 use jni::JNIEnv;
 use jni::objects::{JString, JObject};
 use crate::{surrender_rust_pointer, throw};

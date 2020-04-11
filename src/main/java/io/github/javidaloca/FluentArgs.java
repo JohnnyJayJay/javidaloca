@@ -1,51 +1,67 @@
 package io.github.javidaloca;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
-public final class FluentArgs {
+public final class FluentArgs extends AbstractMap<String, FluentValue> {
 
-  // Cache so that the contents don't get garbage collected
   private final Map<String, FluentValue> map;
 
   private FluentArgs() {
     this.map = new HashMap<>();
-    bind();
   }
 
-  private native void bind();
-
-  public FluentArgs put(String parameter, double value) {
-    return put(parameter, FluentDouble.of(value));
+  public FluentArgs insert(String parameter, double value) {
+    return insert(parameter, FluentDouble.of(value));
   }
 
-  public FluentArgs put(String parameter, int value) {
-    return put(parameter, FluentInt.of(value));
+  public FluentArgs insert(String parameter, int value) {
+    return insert(parameter, FluentInt.of(value));
   }
 
-  public FluentArgs put(String parameter, long value) {
-    return put(parameter, FluentLong.of(value));
+  public FluentArgs insert(String parameter, long value) {
+    return insert(parameter, FluentLong.of(value));
   }
 
-  public FluentArgs put(String parameter, String value) {
-    return put(parameter, FluentString.of(value));
+  public FluentArgs insert(String parameter, String value) {
+    return insert(parameter, FluentString.of(value));
   }
 
-  public FluentArgs put(String parameter, FluentValue value) {
-    map.put(parameter, value);
-    insert(parameter, value);
+  public FluentArgs insert(String parameter, FluentValue value) {
+    put(parameter, value);
     return this;
   }
 
-  private native void insert(String parameter, FluentValue value);
+  @Override
+  public FluentValue put(String key, FluentValue value) {
+    return map.put(key, value);
+  }
 
-  public static FluentArgs of(Map<String, ? extends FluentValue> args) {
-    FluentArgs fluentArgs = new FluentArgs();
-    args.forEach(fluentArgs::put);
-    return fluentArgs;
+  @Override
+  public FluentValue get(Object key) {
+    return map.get(key);
+  }
+
+  @Override
+  public boolean containsKey(Object key) {
+    return map.containsKey(key);
+  }
+
+  @Override
+  public Set<String> keySet() {
+    return map.keySet();
+  }
+
+  @Override
+  public Collection<FluentValue> values() {
+    return map.values();
+  }
+
+  @Override
+  public Set<Entry<String, FluentValue>> entrySet() {
+    return map.entrySet();
   }
 
   public static FluentArgs create() {
