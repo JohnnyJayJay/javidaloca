@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
+// TODO custom functions
 public final class FluentBundle extends RustObject {
 
   private final List<Locale> locales;
@@ -15,6 +16,16 @@ public final class FluentBundle extends RustObject {
   }
 
   private native void bind(List<Locale> locales);
+
+  public native void addResource(FluentResource resource);
+
+  public native boolean hasMessage(String id);
+
+  public Optional<String> formatMessage(String id, FluentArgs arguments) {
+    return Optional.ofNullable(formatMessageRs(id, arguments));
+  }
+
+  private native String formatMessageRs(String id, FluentArgs arguments);
 
   public static FluentBundle create(Locale... locales) {
     return create(Arrays.asList(locales));

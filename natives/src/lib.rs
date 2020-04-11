@@ -1,9 +1,8 @@
 use jni::JNIEnv;
-use jni::objects::{JObject, JString};
+use jni::objects::{JObject, JString, JValue, JThrowable};
 use std::sync::MutexGuard;
 use unic_langid::LanguageIdentifier;
-use std::panic::resume_unwind;
-use std::env::var;
+use fluent_bundle::FluentError;
 
 mod resource;
 mod value;
@@ -52,10 +51,16 @@ fn locale_to_langid(env: &JNIEnv, locale: JObject) -> Option<LanguageIdentifier>
                                                    variants.as_slice()) {
         Some(id)
     } else {
-        // TODO better exception type
-        env.throw_new(
-            "java/lang/RuntimeException",
-            format!("Invalid locale: could not convert Java Locale {:?} to Rust LanguageIdentifier", locale));
+        let message = format!("Invalid locale: could not convert Java Locale ({:?}) to Rust LanguageIdentifier", locale);
+        let failure = &format!("Could not create Java String from {}", message);
+        let message = env.new_string(message)
+            .expect(failure);
+        let exception = env.new_object(
+            "io/github/javidaloca/InvalidLocaleException",
+            "(Ljava/lang/String;Ljava/util/Locale;)V",
+            &[JValue::from(message), JValue::from(locale)]
+        ).unwrap();
+        env.throw(JThrowable::from(exception));
         None
     }
 }
@@ -69,6 +74,24 @@ fn call_str_getter(env: &JNIEnv, object: &JObject, name: &str) -> Option<String>
         None
     } else {
         Some(s)
+    }
+}
+
+// TODO exception model
+fn throw<E>(env: &JNIEnv, mut errors: Vec<E>)
+where E : Into<FluentError> {
+    while !errors.is_empty() {
+        match errors.pop().unwrap().into() {
+            FluentError::ResolverError(re) => {
+
+            },
+            FluentError::ParserError(pe) => {
+
+            },
+            FluentError::Overriding { kind, id} => {
+
+            }
+        }
     }
 }
 
