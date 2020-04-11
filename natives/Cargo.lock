@@ -184,6 +184,7 @@ version = "0.1.0"
 dependencies = [
  "fluent-bundle",
  "jni",
+ "unic-langid",
 ]
 
 [[package]]

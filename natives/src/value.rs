@@ -2,7 +2,7 @@ use fluent_bundle::FluentValue;
 use jni::JNIEnv;
 use jni::objects::{JObject, JString, JValue};
 
-use crate::surrender_rust_pointer;
+use crate::{surrender_rust_pointer, javastr_to_ruststr};
 
 #[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentString_bind(
@@ -10,10 +10,8 @@ pub extern "system" fn Java_io_github_javidaloca_FluentString_bind(
     this: JObject,
     value: JString,
 ) {
-    let string = env.get_string(value)
-        .expect("Could not convert Java string");
-    let string = string.to_str().unwrap();
-    surrender_rust_pointer(&env, &this, FluentValue::from(String::from(string)));
+    let string = javastr_to_ruststr(&env, value);
+    surrender_rust_pointer(&env, &this, FluentValue::from(string));
 }
 
 #[no_mangle]

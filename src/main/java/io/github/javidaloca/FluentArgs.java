@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
-public class FluentArgs {
+public final class FluentArgs {
 
   // Cache so that the contents don't get garbage collected
   private final Map<String, FluentValue> map;

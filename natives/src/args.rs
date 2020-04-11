@@ -1,7 +1,7 @@
 use fluent_bundle::{FluentArgs, FluentValue};
 use jni::JNIEnv;
 use jni::objects::{JObject, JString};
-use crate::{surrender_rust_pointer, get_rust_pointer};
+use crate::{surrender_rust_pointer, get_rust_pointer, javastr_to_ruststr};
 
 #[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentArgs_bind(
@@ -20,11 +20,8 @@ pub extern "system" fn Java_io_github_javidaloca_FluentArgs_insert(
     value: JObject
 ) {
     let mut args = get_rust_pointer::<FluentArgs>(&env, &this);
-    let parameter = env.get_string(parameter)
-        .expect("Could not convert Java String to Rust String");
-
-    let parameter = String::from(parameter.to_str().unwrap());
+    let parameter = javastr_to_ruststr(&env, parameter);
     let value = get_rust_pointer::<FluentValue>(&env, &value).clone();
     // FIXME fluent issue? insert String instead of &str
-    args.insert(&*parameter, value);
+    args.insert(&parameter, value);
 }
