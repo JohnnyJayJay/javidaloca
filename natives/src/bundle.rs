@@ -1,16 +1,13 @@
 use std::ptr::null_mut;
 
-use fluent::{FluentArgs, FluentError, FluentResource, FluentValue};
-use fluent::concurrent::FluentBundle;
+use fluent_bundle::{FluentArgs, FluentError, FluentResource, FluentValue};
+use fluent_bundle::concurrent::FluentBundle;
 use jni::JNIEnv;
 use jni::objects::{JList, JObject, JString, JMap};
 use jni::sys::{jboolean, jobject};
 use unic_langid::LanguageIdentifier;
 
-use crate::{get_rust_pointer, javastr_to_ruststr, locale_to_langid, surrender_rust_pointer, throw};
-use std::borrow::Borrow;
-use std::sync::{MutexGuard, Arc};
-use std::ops::Deref;
+use crate::{get_rust_pointer, javastr_to_ruststr, locale_to_langid, surrender_rust_pointer, throw_override_exception, throw_format_exception};
 use std::collections::HashMap;
 
 #[no_mangle]
@@ -39,7 +36,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResource(
     let resource = get_rust_pointer::<FluentResource>(&env, &resource);
     // FIXME illegal move out of resource (copy/clone it somehow to fix)
     if let Err(errors) = bundle.add_resource(*resource) {
-        throw(&env, errors);
+        throw_override_exception(&env, errors);
     }
 }
 
@@ -70,11 +67,11 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_hasMessage(
 pub extern "system" fn Java_io_github_javidaloca_FluentBundle_formatMessageRs(
     env: JNIEnv,
     this: JObject,
-    id: JString,
+    java_id: JString,
     args: JObject,
 ) -> jobject {
     let bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
-    let id = javastr_to_ruststr(&env, id);
+    let id = javastr_to_ruststr(&env, java_id);
     // Everything about this is terrible and I'm sorry you have to witness it.
     let args = JMap::from_env(&env, args).unwrap();
     let mut args_map = HashMap::<String, FluentValue>::new();
@@ -97,7 +94,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_formatMessageRs(
             let result = bundle.format_pattern(
                 message.value.unwrap(), Some(&fluent_args), &mut errors);
             if !errors.is_empty() {
-                throw(&env, errors);
+                throw_format_exception(&env,java_id, errors);
                 return null_mut()
             }
             let failure = format!("Failed to create Java String from {}", result);
