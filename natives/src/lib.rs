@@ -13,13 +13,14 @@ mod resource;
 mod value;
 mod bundle;
 
-// TODO check if this works with type parameters (at runtime)
 #[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_RustObject_surrender<T>(
+pub extern "system" fn Java_io_github_javidaloca_RustObject_surrender(
     env: JNIEnv,
     object: JObject,
-) where T: 'static + Send {
-    let _value: T = env.take_rust_field(object, "pointer")
+) {
+    // String is just a placeholder. In reality, this is some other type,
+    // but it doesn't matter because we only want to drop it here
+    let _value: String = env.take_rust_field(object, "pointer")
         .expect("Could not find pointer in rust object");
 }
 
