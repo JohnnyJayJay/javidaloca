@@ -99,8 +99,8 @@ fn throw_override_exception(env: &JNIEnv, mut errors: Vec<FluentError>) {
     while !errors.is_empty() {
         let error = errors.pop().unwrap();
         if let FluentError::Overriding { kind, id } = error {
-            let kind = JValue::Object(*env.new_string(kind).unwrap());
-            let id = JValue::Object(*env.new_string(id).unwrap());
+            let kind = JValue::from(*env.new_string(kind).unwrap());
+            let id = JValue::from(*env.new_string(id).unwrap());
             let object = env.alloc_object(override_cls).unwrap();
             env.call_method_unchecked(
                 object, override_constr,
@@ -110,7 +110,7 @@ fn throw_override_exception(env: &JNIEnv, mut errors: Vec<FluentError>) {
         }
     }
     let exception = env.new_object(
-        exception_cls_name, "(Ljava/util/List;)V", &[JValue::Object(*list)],
+        exception_cls_name, "(Ljava/util/List;)V", &[JValue::from(*list)],
     ).unwrap();
     env.throw(JThrowable::from(exception)).unwrap();
 }
@@ -132,7 +132,7 @@ fn throw_format_exception(env: &JNIEnv, message_id: JString, mut errors: Vec<Flu
         env.new_object(
             "io/github/javidaloca/MessageFormatException",
             "(Ljava/lang/String;Ljava/util/List;)V",
-            &[JValue::Object(*message_id), JValue::Object(*list)],
+            &[JValue::from(*message_id), JValue::from(*list)],
         ).unwrap();
     env.throw(JThrowable::from(exception)).unwrap();
 }
@@ -182,13 +182,13 @@ fn throw_parse_exception(env: &JNIEnv, source: JString, mut errors: Vec<ParserEr
         env.call_method_unchecked(
             error, error_constr,
             JavaType::Primitive(Primitive::Void),
-            &[JValue::Int(from as i32), JValue::Int(to as i32), JValue::Object(msg)],
+            &[JValue::from(from as i32), JValue::from(to as i32), JValue::from(msg)],
         ).unwrap();
         list.add(error);
     }
     let exception = env.new_object(
         exception_cls_name, "(Ljava/lang/String;Ljava/util/List;)V",
-        &[JValue::Object(*source), JValue::Object(*list)],
+        &[JValue::from(*source), JValue::from(*list)],
     ).unwrap();
     env.throw(JThrowable::from(exception)).unwrap();
 }
