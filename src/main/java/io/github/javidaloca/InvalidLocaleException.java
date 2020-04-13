@@ -9,8 +9,9 @@ public class InvalidLocaleException extends RuntimeException {
 
   private final Locale locale;
 
-  public InvalidLocaleException(String message, Locale locale) {
-    super(message);
+  public InvalidLocaleException(Locale locale) {
+    super("Invalid locale: could not convert Java Locale ("
+        + locale + ") to Rust LanguageIdentifier");
     this.locale = locale;
   }
 

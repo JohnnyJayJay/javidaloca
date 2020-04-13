@@ -56,14 +56,10 @@ fn locale_to_langid(env: &JNIEnv, locale: JObject) -> Option<LanguageIdentifier>
                                                    variants.as_slice()) {
         Some(id)
     } else {
-        let message = format!("Invalid locale: could not convert Java Locale ({:?}) to Rust LanguageIdentifier", locale);
-        let failure = &format!("Could not create Java String from {}", message);
-        let message = env.new_string(message)
-            .expect(failure);
         let exception = env.new_object(
             "io/github/javidaloca/InvalidLocaleException",
-            "(Ljava/lang/String;Ljava/util/Locale;)V",
-            &[JValue::from(message), JValue::from(locale)],
+            "(Ljava/util/Locale;)V",
+            &[JValue::from(locale)],
         ).unwrap();
         env.throw(JThrowable::from(exception));
         None
