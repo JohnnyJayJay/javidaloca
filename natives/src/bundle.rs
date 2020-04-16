@@ -1,14 +1,14 @@
+use std::collections::HashMap;
 use std::ptr::null_mut;
 
 use fluent_bundle::{FluentArgs, FluentError, FluentResource, FluentValue};
 use fluent_bundle::concurrent::FluentBundle;
 use jni::JNIEnv;
-use jni::objects::{JList, JObject, JString, JMap};
+use jni::objects::{JList, JMap, JObject, JString, JValue};
 use jni::sys::{jboolean, jobject};
 use unic_langid::LanguageIdentifier;
 
-use crate::{get_rust_pointer, javastr_to_ruststr, locale_to_langid, surrender_rust_pointer, throw_override_exception, throw_format_exception};
-use std::collections::HashMap;
+use crate::{get_rust_pointer, javastr_to_ruststr, locale_to_langid, surrender_rust_pointer, throw_format_exception, throw_override_exception, throw_parse_exception};
 
 #[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentBundle_bind(
@@ -30,26 +30,31 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_bind(
 pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResource(
     env: JNIEnv,
     this: JObject,
-    resource: JObject,
+    resource: JString,
+    do_override: JValue
 ) {
-    let mut bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
-    let resource = get_rust_pointer::<FluentResource>(&env, &resource);
-    // FIXME illegal move out of resource (copy/clone it somehow to fix)
-    if let Err(errors) = bundle.add_resource(*resource) {
-        throw_override_exception(&env, errors);
+    if let Some(resource) = create_resource(&env, resource) {
+        let mut bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
+        let do_override = do_override.z().unwrap();
+        if do_override {
+            bundle.add_resource_overriding(resource);
+        } else {
+            if let Err(errors) = bundle.add_resource(resource) {
+                throw_override_exception(&env, errors);
+            }
+        }
     }
 }
 
-#[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResourceOverriding(
-    env: JNIEnv,
-    this: JObject,
-    resource: JObject,
-) {
-    let mut bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
-    let resource = get_rust_pointer::<FluentResource>(&env, &resource);
-    // FIXME illegal move out of resource (copy/clone it somehow to fix)
-    bundle.add_resource_overriding(*resource);
+fn create_resource(env: &JNIEnv, source: JString) -> Option<FluentResource> {
+    let result = FluentResource::try_new(javastr_to_ruststr(env, source));
+    match result {
+        Ok(resource) => Some(resource),
+        Err((_, errors)) => {
+            throw_parse_exception(env, source, errors);
+            None
+        }
+    }
 }
 
 #[no_mangle]
@@ -94,7 +99,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_formatMessageRs(
             let result = bundle.format_pattern(
                 message.value.unwrap(), Some(&fluent_args), &mut errors);
             if !errors.is_empty() {
-                throw_format_exception(&env,java_id, errors);
+                throw_format_exception(&env, java_id, errors);
                 return null_mut()
             }
             let failure = format!("Failed to create Java String from {}", result);

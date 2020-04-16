@@ -9,7 +9,6 @@ use jni::signature::JavaType;
 use jni::signature::Primitive;
 use unic_langid::LanguageIdentifier;
 
-mod resource;
 mod value;
 mod bundle;
 
@@ -61,7 +60,7 @@ fn locale_to_langid(env: &JNIEnv, locale: JObject) -> Option<LanguageIdentifier>
             "(Ljava/util/Locale;)V",
             &[JValue::from(locale)],
         ).unwrap();
-        env.throw(JThrowable::from(exception));
+        env.throw(JThrowable::from(exception)).unwrap();
         None
     }
 }
@@ -101,8 +100,8 @@ fn throw_override_exception(env: &JNIEnv, mut errors: Vec<FluentError>) {
             env.call_method_unchecked(
                 object, override_constr,
                 JavaType::Object("V".to_owned()), &[kind, id],
-            );
-            list.add(object);
+            ).unwrap();
+            list.add(object).unwrap();
         }
     }
     let exception = env.new_object(
@@ -121,7 +120,7 @@ fn throw_format_exception(env: &JNIEnv, message_id: JString, mut errors: Vec<Flu
                 ResolverError::TooManyPlaceables => "Too many Placeables".into(),
                 ResolverError::Reference(reference) => format!("Unresolved reference: {}", reference)
             };
-            list.add(*env.new_string(msg).unwrap());
+            list.add(*env.new_string(msg).unwrap()).unwrap();
         }
     }
     let exception =
@@ -180,7 +179,7 @@ fn throw_parse_exception(env: &JNIEnv, source: JString, mut errors: Vec<ParserEr
             JavaType::Primitive(Primitive::Void),
             &[JValue::from(from as i32), JValue::from(to as i32), JValue::from(msg)],
         ).unwrap();
-        list.add(error);
+        list.add(error).unwrap();
     }
     let exception = env.new_object(
         exception_cls_name, "(Ljava/lang/String;Ljava/util/List;)V",

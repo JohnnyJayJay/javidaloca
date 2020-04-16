@@ -17,4 +17,8 @@ public final class FluentString extends FluentValue {
   }
 
   private native void bind(String value);
+
+  public String getValue() {
+    return value;
+  }
 }

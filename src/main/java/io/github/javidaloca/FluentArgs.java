@@ -14,15 +14,27 @@ public final class FluentArgs extends AbstractMap<String, FluentValue> {
   }
 
   public FluentArgs insert(String parameter, double value) {
-    return insert(parameter, FluentDouble.of(value));
+    return insert(parameter, value, FluentNumber.DEFAULT_OPTIONS);
+  }
+
+  public FluentArgs insert(String parameter, double value, FluentNumber.Options options) {
+    return insert(parameter, FluentNumber.of(value, options));
   }
 
   public FluentArgs insert(String parameter, int value) {
-    return insert(parameter, FluentInt.of(value));
+    return insert(parameter, value, FluentNumber.DEFAULT_OPTIONS);
+  }
+
+  public FluentArgs insert(String parameter, int value, FluentNumber.Options options) {
+    return insert(parameter, FluentNumber.of(value, options));
   }
 
   public FluentArgs insert(String parameter, long value) {
-    return insert(parameter, FluentLong.of(value));
+    return insert(parameter, value, FluentNumber.DEFAULT_OPTIONS);
+  }
+
+  public FluentArgs insert(String parameter, long value, FluentNumber.Options options) {
+    return insert(parameter, FluentNumber.of(value, options));
   }
 
   public FluentArgs insert(String parameter, String value) {

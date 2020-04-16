@@ -1,5 +1,10 @@
 package io.github.javidaloca;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -15,11 +20,33 @@ public final class FluentBundle extends RustObject {
     bind(this.locales);
   }
 
+  public static FluentBundle of(Locale... locales) {
+    return of(locales == null ? null : Arrays.asList(locales));
+  }
+
+  public static FluentBundle of(List<Locale> locales) {
+    if (locales == null || locales.stream().anyMatch(Objects::isNull)) {
+      throw new IllegalArgumentException("Locales must not be null");
+    }
+    return new FluentBundle(locales);
+  }
+
   private native void bind(List<Locale> locales);
 
-  public native void addResourceOverriding(FluentResource resource);
+  public void addResource(InputStream resource, boolean override) throws IOException {
+    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    int next;
+    while ((next = resource.read()) != -1) {
+      bytes.write(next);
+    }
+    addResource(new String(bytes.toByteArray()), override);
+  }
 
-  public native void addResource(FluentResource resource);
+  public void addResource(Path resource, boolean override) throws IOException {
+    addResource(new String(Files.readAllBytes(resource)), override);
+  }
+
+  public native void addResource(String resource, boolean override);
 
   public native boolean hasMessage(String id);
 
@@ -29,15 +56,8 @@ public final class FluentBundle extends RustObject {
 
   private native String formatMessageRs(String id, Map<String, ? extends FluentValue> arguments);
 
-  public static FluentBundle create(Locale... locales) {
-    return create(Arrays.asList(locales));
-  }
-
-  public static FluentBundle create(List<Locale> locales) {
-    if (locales.stream().anyMatch(Objects::isNull)) {
-      throw new IllegalArgumentException("Locales must not be null");
-    }
-    return new FluentBundle(locales);
+  public List<Locale> getLocales() {
+    return locales;
   }
 
 }

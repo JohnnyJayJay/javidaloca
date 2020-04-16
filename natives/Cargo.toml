@@ -11,6 +11,7 @@ jni = "0.16.0"
 fluent-bundle = { git = "https://github.com/zbraniecki/fluent-rs", branch = "custom-send" }
 fluent-syntax = { git = "https://github.com/zbraniecki/fluent-rs", branch = "custom-send" }
 unic-langid = "0.8.0"
+intl-memoizer = "0.4.0"
 
 [lib]
 crate_type = ["cdylib"]

@@ -88,7 +88,7 @@ source = "git+https://github.com/zbraniecki/fluent-rs?branch=custom-send#533737b
 dependencies = [
  "fluent-langneg",
  "fluent-syntax",
- "intl-memoizer",
+ "intl-memoizer 0.4.0 (git+https://github.com/zbraniecki/fluent-rs?branch=custom-send)",
  "intl_pluralrules",
  "rental",
  "smallvec",
@@ -122,6 +122,16 @@ dependencies = [
 name = "intl-memoizer"
 version = "0.4.0"
 source = "git+https://github.com/zbraniecki/fluent-rs?branch=custom-send#533737b2faa662adcc2b9b410c705d801e55b1f8"
+dependencies = [
+ "type-map",
+ "unic-langid",
+]
+
+[[package]]
+name = "intl-memoizer"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9867e2d65d82936ef34217ed0f87b639a94384e93a0676158142c861c705391f"
 dependencies = [
  "type-map",
  "unic-langid",
@@ -184,6 +194,7 @@ version = "0.1.0"
 dependencies = [
  "fluent-bundle",
  "fluent-syntax",
+ "intl-memoizer 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "jni",
  "unic-langid",
 ]

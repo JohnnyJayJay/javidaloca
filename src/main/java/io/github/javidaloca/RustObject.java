@@ -1,7 +1,5 @@
 package io.github.javidaloca;
 
-import java.util.Locale;
-
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
