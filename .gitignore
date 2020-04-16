@@ -6,4 +6,6 @@ build
 
 .idea
 
-natives/target
+fluentbindings/target
+
+*.log

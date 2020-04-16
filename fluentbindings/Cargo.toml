@@ -1,5 +1,5 @@
 [package]
-name = "natives"
+name = "fluentbindings"
 version = "0.1.0"
 authors = ["JohnnyJayJay <johnnyjayjay02@gmail.com>"]
 edition = "2018"

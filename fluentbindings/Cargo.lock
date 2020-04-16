@@ -110,6 +110,17 @@ version = "0.9.3"
 source = "git+https://github.com/zbraniecki/fluent-rs?branch=custom-send#533737b2faa662adcc2b9b410c705d801e55b1f8"
 
 [[package]]
+name = "fluentbindings"
+version = "0.1.0"
+dependencies = [
+ "fluent-bundle",
+ "fluent-syntax",
+ "intl-memoizer 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "jni",
+ "unic-langid",
+]
+
+[[package]]
 name = "fxhash"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -169,9 +180,9 @@ checksum = "8eaf4bc02d17cbdd7ff4c7438cafcdf7fb9a4613313ad11b4f8fefe7d3fa0130"
 
 [[package]]
 name = "libc"
-version = "0.2.68"
+version = "0.2.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dea0c0405123bba743ee3f91f49b1c7cfb684eef0da0a50110f758ccf24cdff0"
+checksum = "99e85c08494b21a9054e7fe1374a732aeadaff3980b6990b94bfd3a70f690005"
 
 [[package]]
 name = "log"
@@ -187,17 +198,6 @@ name = "memchr"
 version = "2.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3728d817d99e5ac407411fa471ff9800a778d88a24685968b36824eaf4bee400"
-
-[[package]]
-name = "natives"
-version = "0.1.0"
-dependencies = [
- "fluent-bundle",
- "fluent-syntax",
- "intl-memoizer 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "jni",
- "unic-langid",
-]
 
 [[package]]
 name = "proc-macro2"

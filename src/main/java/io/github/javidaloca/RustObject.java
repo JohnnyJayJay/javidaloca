@@ -5,6 +5,10 @@ package io.github.javidaloca;
  */
 public abstract class RustObject {
 
+  static {
+    System.loadLibrary("fluentbindings");
+  }
+
   private long pointer;
 
   private native void surrender();
