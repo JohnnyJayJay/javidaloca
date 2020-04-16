@@ -20,11 +20,11 @@ public final class FluentBundle extends RustObject {
     bind(this.locales);
   }
 
-  public static FluentBundle of(Locale... locales) {
-    return of(locales == null ? null : Arrays.asList(locales));
+  public static FluentBundle create(Locale... locales) {
+    return create(locales == null ? null : Arrays.asList(locales));
   }
 
-  public static FluentBundle of(List<Locale> locales) {
+  public static FluentBundle create(List<Locale> locales) {
     if (locales == null || locales.stream().anyMatch(Objects::isNull)) {
       throw new IllegalArgumentException("Locales must not be null");
     }

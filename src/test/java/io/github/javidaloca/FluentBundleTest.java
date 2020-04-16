@@ -15,7 +15,7 @@ class FluentBundleTest {
 
   @BeforeEach
   void setUp() {
-    bundle = FluentBundle.of(Locale.US);
+    bundle = FluentBundle.create(Locale.US);
     bundle.addResource("key = { $one } and { $two }!", false);
   }
 
