@@ -170,6 +170,17 @@ public final class FluentBundle extends RustObject {
   private native String formatMessageRs(String id, Map<String, ? extends FluentValue> arguments);
 
   /**
+   * Sets whether placeables should be embedded in Unicode Directionality Isolation characters.
+   * The purpose of this is to prevent arguments (such as names) that use a directionality
+   * of right to left from changing the directionality of the entire message.
+   *
+   * Enabled by default.
+   *
+   * @param useIsolating {@code true} to enable, {@code false} to disable it.
+   */
+  public native void setUseIsolating(boolean useIsolating);
+
+  /**
    * Returns the fallback locales of this bundle.
    *
    * @return An unmodifiable list view of the fallback locales.

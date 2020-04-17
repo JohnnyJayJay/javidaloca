@@ -17,6 +17,7 @@ class FluentBundleTest {
   void setUp() {
     bundle = FluentBundle.create(Locale.US);
     bundle.addResource("key = { $one } and { $two }!", false);
+    bundle.setUseIsolating(false);
   }
 
   @Test

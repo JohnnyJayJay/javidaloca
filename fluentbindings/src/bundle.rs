@@ -72,6 +72,16 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_hasMessageRs(
 }
 
 #[no_mangle]
+pub extern "system" fn Java_io_github_javidaloca_FluentBundle_setUseIsolating(
+    env: JNIEnv,
+    this: JObject,
+    use_isolating: jboolean
+) {
+    let mut bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
+    bundle.set_use_isolating(use_isolating == 1);
+}
+
+#[no_mangle]
 pub extern "system" fn Java_io_github_javidaloca_FluentBundle_formatMessageRs(
     env: JNIEnv,
     this: JObject,
@@ -79,6 +89,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_formatMessageRs(
     args: JObject,
 ) -> jobject {
     let bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
+    bundle.set_
     let id = javastr_to_ruststr(&env, java_id);
     // Everything about this is terrible and I'm sorry you have to witness it.
     let args = JMap::from_env(&env, args).unwrap();
