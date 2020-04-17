@@ -8,6 +8,14 @@ import java.util.Optional;
 import static io.github.javidaloca.Checks.notNull;
 
 /**
+ * A numeric value. Corresponds to {@code FluentValue::Number} in
+ * {@link https://github.com/projectfluent/fluent-rs fluent-rs}.
+ *
+ * A {@code FluentNumber} consists of two components: the actual value (as a {@code double}) and
+ * a bunch of formatting {@link Options options}.
+ *
+ * @see #of(double, Options)
+ * @see Options
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
 public final class FluentNumber extends FluentValue {
@@ -25,19 +33,31 @@ public final class FluentNumber extends FluentValue {
 
   private native void bind(double value, Options options);
 
-  @Nonnull
-  public static FluentNumber of(int value, @Nonnull Options options) {
-    return new FluentNumber(value, notNull(options, "Options"));
-  }
-
-  @Nonnull
-  public static FluentNumber of(long value, @Nonnull Options options) {
-    return new FluentNumber(value, notNull(options, "Options"));
-  }
-
+  /**
+   * Creates a new instance of FluentNumber based on the given value and options.
+   *
+   * @param value The value, as a double.
+   * @param options The options for this FluentNumber.
+   * @return The new instance.
+   * @throws IllegalArgumentException If the options are {@code null}.
+   */
   @Nonnull
   public static FluentNumber of(double value, @Nonnull Options options) {
     return new FluentNumber(value, notNull(options, "Options"));
+  }
+
+  /**
+   * Creates a new instance of FluentNumber based on the given value and the
+   * {@link #DEFAULT_OPTIONS default options}.
+   *
+   * @param value The value, as a double.
+   * @return The new instance.
+   * @see #DEFAULT_OPTIONS
+   * @see #of(double, Options)
+   */
+  @Nonnull
+  public static FluentNumber of(double value) {
+    return new FluentNumber(value, DEFAULT_OPTIONS);
   }
 
   public double getValue() {

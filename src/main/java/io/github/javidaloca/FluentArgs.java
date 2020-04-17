@@ -66,66 +66,6 @@ public final class FluentArgs extends AbstractMap<String, FluentValue> {
   }
 
   /**
-   * Inserts an integer value with the default {@link FluentNumber.Options number options}.
-   *
-   * @param parameter The name of the parameter in the message.
-   * @param value The value to be associated with the parameter.
-   * @return this, for chaining
-   * @throws IllegalArgumentException If the parameter name is {@code null}.
-   * @see FluentNumber#DEFAULT_OPTIONS
-   * @see FluentNumber
-   */
-  @Nonnull
-  public FluentArgs insert(@Nonnull String parameter, int value) {
-    return insert(parameter, value, FluentNumber.DEFAULT_OPTIONS);
-  }
-
-  /**
-   * Inserts an integer value with the provided {@link FluentNumber.Options number options}.
-   *
-   * @param parameter The name of the parameter in the message.
-   * @param value The value to be associated with the parameter.
-   * @param options The options to be used for the value.
-   * @return this, for chaining
-   * @throws IllegalArgumentException If the parameter name or the options are {@code null}.
-   * @see FluentNumber
-   */
-  @Nonnull
-  public FluentArgs insert(@Nonnull String parameter, int value, @Nonnull FluentNumber.Options options) {
-    return insert(parameter, FluentNumber.of(value, options));
-  }
-
-  /**
-   * Inserts a long value with the default {@link FluentNumber.Options number options}.
-   *
-   * @param parameter The name of the parameter in the message.
-   * @param value The value to be associated with the parameter.
-   * @return this, for chaining
-   * @throws IllegalArgumentException If the parameter name is {@code null}.
-   * @see FluentNumber#DEFAULT_OPTIONS
-   * @see FluentNumber
-   */
-  @Nonnull
-  public FluentArgs insert(@Nonnull String parameter, long value) {
-    return insert(parameter, value, FluentNumber.DEFAULT_OPTIONS);
-  }
-
-  /**
-   * Inserts a long value with the provided {@link FluentNumber.Options number options}.
-   *
-   * @param parameter The name of the parameter in the message.
-   * @param value The value to be associated with the parameter.
-   * @param options The options to be used for the value.
-   * @return this, for chaining
-   * @throws IllegalArgumentException If the parameter name or the options are {@code null}.
-   * @see FluentNumber
-   */
-  @Nonnull
-  public FluentArgs insert(@Nonnull String parameter, long value, @Nonnull FluentNumber.Options options) {
-    return insert(parameter, FluentNumber.of(value, options));
-  }
-
-  /**
    * Inserts a String value.
    *
    * @param parameter The name of the parameter in the message.
