@@ -7,7 +7,7 @@ WIP Java bindings for the Project Fluent Rust implementation.
 - [ ] Add Java API for custom functions
 - [ ] Setup proper gradle/cargo workflow
 - [ ] Write javadoc
-- [ ] Resolve [fluent-rs issue #172](https://github.com/projectfluent/fluent-rs/issues/172)
+- [x] Resolve [fluent-rs issue #172](https://github.com/projectfluent/fluent-rs/issues/172)
 
 ## Usage
 ```java
