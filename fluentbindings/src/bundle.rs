@@ -89,7 +89,6 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_formatMessageRs(
     args: JObject,
 ) -> jobject {
     let bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
-    bundle.set_
     let id = javastr_to_ruststr(&env, java_id);
     // Everything about this is terrible and I'm sorry you have to witness it.
     let args = JMap::from_env(&env, args).unwrap();
