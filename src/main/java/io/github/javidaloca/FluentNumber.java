@@ -1,5 +1,12 @@
 package io.github.javidaloca;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import java.util.Optional;
+
+import static io.github.javidaloca.Checks.notNull;
+
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
@@ -18,26 +25,31 @@ public final class FluentNumber extends FluentValue {
 
   private native void bind(double value, Options options);
 
-  public static FluentNumber of(int value, Options options) {
-    return new FluentNumber(value, options);
+  @Nonnull
+  public static FluentNumber of(int value, @Nonnull Options options) {
+    return new FluentNumber(value, notNull(options, "Options"));
   }
 
-  public static FluentNumber of(long value, Options options) {
-    return new FluentNumber(value, options);
+  @Nonnull
+  public static FluentNumber of(long value, @Nonnull Options options) {
+    return new FluentNumber(value, notNull(options, "Options"));
   }
 
-  public static FluentNumber of(double value, Options options) {
-    return new FluentNumber(value, options);
+  @Nonnull
+  public static FluentNumber of(double value, @Nonnull Options options) {
+    return new FluentNumber(value, notNull(options, "Options"));
   }
 
   public double getValue() {
     return value;
   }
 
+  @Nonnull
   public Options getOptions() {
     return options;
   }
 
+  @Nonnull
   public static Options.Builder options() {
     return new Options.Builder();
   }
@@ -66,14 +78,17 @@ public final class FluentNumber extends FluentValue {
       this.maximumSignificantDigits = maximumSignificantDigits;
     }
 
+    @Nonnull
     public Style getStyle() {
       return style;
     }
 
-    public String getCurrency() {
-      return currency;
+    @Nonnull
+    public Optional<String> getCurrency() {
+      return Optional.ofNullable(currency);
     }
 
+    @Nonnull
     public CurrencyDisplayStyle getCurrencyDisplay() {
       return currencyDisplay;
     }
@@ -115,51 +130,61 @@ public final class FluentNumber extends FluentValue {
 
       private Builder() {}
 
-      public Builder style(Style style) {
-        this.style = style;
+      @Nonnull
+      public Builder style(@Nonnull Style style) {
+        this.style = notNull(style, "Number style");
         return this;
       }
 
-      public Builder currency(String currency) {
+      @Nonnull
+      public Builder currency(@Nullable String currency) {
         this.currency = currency;
         return this;
       }
 
-      public Builder currencyDisplay(CurrencyDisplayStyle currencyDisplay) {
-        this.currencyDisplay = currencyDisplay;
+      @Nonnull
+      public Builder currencyDisplay(@Nonnull CurrencyDisplayStyle currencyDisplay) {
+        this.currencyDisplay = notNull(currencyDisplay, "Currency display style");
         return this;
       }
 
+      @Nonnull
       public Builder useGrouping(boolean useGrouping) {
         this.useGrouping = useGrouping;
         return this;
       }
 
+      @Nonnull
       public Builder minimumIntegerDigits(long minimumIntegerDigits) {
         this.minimumIntegerDigits = minimumIntegerDigits;
         return this;
       }
 
+      @Nonnull
       public Builder minimumFractionDigits(long minimumFractionDigits) {
         this.minimumFractionDigits = minimumFractionDigits;
         return this;
       }
 
+      @Nonnull
       public Builder maximumFractionDigits(long maximumFractionDigits) {
         this.maximumFractionDigits = maximumFractionDigits;
         return this;
       }
 
+      @Nonnull
       public Builder minimumSignificantDigits(long minimumSignificantDigits) {
         this.minimumSignificantDigits = minimumSignificantDigits;
         return this;
       }
 
+      @Nonnull
       public Builder maximumSignificantDigits(long maximumSignificantDigits) {
         this.maximumSignificantDigits = maximumSignificantDigits;
         return this;
       }
 
+      @Nonnull
       public Options build() {
         return new Options(
             style, currency, currencyDisplay, useGrouping, minimumIntegerDigits,
@@ -171,10 +196,10 @@ public final class FluentNumber extends FluentValue {
   }
 
   public enum Style {
-    DECIMAL, CURRENCY, PERCENT;
+    DECIMAL, CURRENCY, PERCENT
   }
 
   public enum CurrencyDisplayStyle {
-    SYMBOL, CODE, NAME;
+    SYMBOL, CODE, NAME
   }
 }

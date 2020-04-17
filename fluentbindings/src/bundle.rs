@@ -30,7 +30,7 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_bind(
 }
 
 #[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResource(
+pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResourceRs(
     env: JNIEnv,
     this: JObject,
     resource: JString,
@@ -61,7 +61,7 @@ fn create_resource(env: &JNIEnv, source: JString) -> Option<FluentResource> {
 }
 
 #[no_mangle]
-pub extern "system" fn Java_io_github_javidaloca_FluentBundle_hasMessage(
+pub extern "system" fn Java_io_github_javidaloca_FluentBundle_hasMessageRs(
     env: JNIEnv,
     this: JObject,
     id: JString,

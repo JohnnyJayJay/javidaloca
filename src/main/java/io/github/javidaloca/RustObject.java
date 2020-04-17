@@ -3,7 +3,7 @@ package io.github.javidaloca;
 /**
  * @author Johnny_JayJay (https://www.github.com/JohnnyJayJay)
  */
-public abstract class RustObject {
+abstract class RustObject {
 
   static {
     System.loadLibrary("fluentbindings");

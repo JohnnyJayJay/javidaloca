@@ -33,7 +33,6 @@ class FluentBundleTest {
     assertTrue(bundle.hasMessage("key"), "FluentBundle did not have message");
   }
 
-  // FIXME fluent-rs issue #172
   @Test
   void formatMessage() {
     Optional<String> message = bundle.formatMessage("key", FluentArgs.create()
@@ -64,5 +63,12 @@ class FluentBundleTest {
     assertThrows(ParseException.class,
         () -> bundle.addResource("I have not read the syntax guide, please help me :(", false),
         "Parser did not throw on syntax errors");
+  }
+
+  @Test
+  void localeException() {
+    assertThrows(InvalidLocaleException.class,
+        () -> FluentBundle.create(new Locale("FOO", "BAR")),
+        "FluentBundle did not throw for invalid locale");
   }
 }
