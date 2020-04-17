@@ -5,6 +5,8 @@ WIP Java bindings for the Project Fluent Rust implementation.
 - [x] Mirror basic API
 - [ ] Add Java API for custom types
 - [ ] Add Java API for custom functions
+- [ ] Setup proper gradle/cargo workflow
+- [ ] Write javadoc
 
 ## Usage
 ```java
