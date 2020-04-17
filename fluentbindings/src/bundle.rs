@@ -4,7 +4,7 @@ use std::ptr::null_mut;
 use fluent_bundle::{FluentArgs, FluentError, FluentResource, FluentValue};
 use fluent_bundle::concurrent::FluentBundle;
 use jni::JNIEnv;
-use jni::objects::{JList, JMap, JObject, JString, JValue};
+use jni::objects::{JList, JMap, JObject, JString};
 use jni::sys::{jboolean, jobject};
 use unic_langid::LanguageIdentifier;
 
@@ -14,12 +14,15 @@ use crate::{get_rust_pointer, javastr_to_ruststr, locale_to_langid, surrender_ru
 pub extern "system" fn Java_io_github_javidaloca_FluentBundle_bind(
     env: JNIEnv,
     this: JObject,
-    locales: JList,
+    locales: JObject,
 ) {
     let mut lang_ids: Vec<LanguageIdentifier> = Vec::new();
+    let locales = JList::from_env(&env, locales).unwrap();
     for locale in locales.iter().unwrap() {
         if let Some(lang_id) = locale_to_langid(&env, locale) {
             lang_ids.push(lang_id);
+        } else {
+            return
         }
     }
     let bundle: FluentBundle<FluentResource> = FluentBundle::new(lang_ids.iter());
@@ -31,12 +34,11 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResource(
     env: JNIEnv,
     this: JObject,
     resource: JString,
-    do_override: JValue
+    do_override: jboolean
 ) {
     if let Some(resource) = create_resource(&env, resource) {
         let mut bundle = get_rust_pointer::<FluentBundle<FluentResource>>(&env, &this);
-        let do_override = do_override.z().unwrap();
-        if do_override {
+        if do_override == 1 {
             bundle.add_resource_overriding(resource);
         } else {
             if let Err(errors) = bundle.add_resource(resource) {
@@ -47,7 +49,8 @@ pub extern "system" fn Java_io_github_javidaloca_FluentBundle_addResource(
 }
 
 fn create_resource(env: &JNIEnv, source: JString) -> Option<FluentResource> {
-    let result = FluentResource::try_new(javastr_to_ruststr(env, source));
+    let rust_source = javastr_to_ruststr(env, source);
+    let result = FluentResource::try_new(rust_source);
     match result {
         Ok(resource) => Some(resource),
         Err((_, errors)) => {

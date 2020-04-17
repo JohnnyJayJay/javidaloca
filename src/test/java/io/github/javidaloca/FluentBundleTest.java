@@ -33,6 +33,7 @@ class FluentBundleTest {
     assertTrue(bundle.hasMessage("key"), "FluentBundle did not have message");
   }
 
+  // FIXME fluent-rs issue #172
   @Test
   void formatMessage() {
     Optional<String> message = bundle.formatMessage("key", FluentArgs.create()

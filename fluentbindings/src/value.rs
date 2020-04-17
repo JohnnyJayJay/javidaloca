@@ -1,7 +1,8 @@
 use fluent_bundle::FluentValue;
 use fluent_bundle::types::{FluentNumber, FluentNumberStyle, FluentNumberCurrencyDisplayStyle, FluentNumberOptions};
 use jni::JNIEnv;
-use jni::objects::{JObject, JString, JValue};
+use jni::sys::jdouble;
+use jni::objects::{JObject, JString};
 
 use crate::{javastr_to_ruststr, surrender_rust_pointer, call_str_getter};
 
@@ -19,22 +20,22 @@ pub extern "system" fn Java_io_github_javidaloca_FluentString_bind(
 pub extern "system" fn Java_io_github_javidaloca_FluentNumber_bind(
     env: JNIEnv,
     this: JObject,
-    value: JValue,
-    options: JValue
+    value: jdouble,
+    options: JObject
 ) {
     surrender_rust_pointer(&env, &this, FluentValue::Number(FluentNumber {
-        value: value.d().unwrap(),
-        options: java_options_to_rust(&env, options.l().unwrap())
+        value,
+        options: java_options_to_rust(&env, options)
     }));
 }
 
 fn java_options_to_rust(env: &JNIEnv, options: JObject) -> FluentNumberOptions {
     let style = env.get_field(
-        options, "style", "io/github/javidaloca/FluentNumber$Style"
+        options, "style", "Lio/github/javidaloca/FluentNumber$Style;"
     ).unwrap().l().unwrap();
     let name = call_str_getter(env, &style, "name").unwrap().to_lowercase();
     let style = FluentNumberStyle::from(&*name);
-    let currency = env.get_field(options, "currency", "java/lang/String")
+    let currency = env.get_field(options, "currency", "Ljava/lang/String;")
         .unwrap().l().unwrap();
     let currency = if currency.is_null() {
         None
@@ -43,7 +44,7 @@ fn java_options_to_rust(env: &JNIEnv, options: JObject) -> FluentNumberOptions {
     };
     let currency_display = env.get_field(
         options, "currencyDisplay",
-        "io/github/javidaloca/FluentNumber$CurrencyDisplayStyle"
+        "Lio/github/javidaloca/FluentNumber$CurrencyDisplayStyle;"
     ).unwrap().l().unwrap();
     let name = call_str_getter(env, &currency_display, "name").unwrap().to_lowercase();
     let currency_display = FluentNumberCurrencyDisplayStyle::from(&*name);

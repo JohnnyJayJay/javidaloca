@@ -31,7 +31,6 @@ public final class FluentBundle extends RustObject {
     return new FluentBundle(locales);
   }
 
-  // FIXME crash
   private native void bind(List<Locale> locales);
 
   public void addResource(InputStream resource, boolean override) throws IOException {
