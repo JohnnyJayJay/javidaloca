@@ -7,7 +7,9 @@ use jni::JNIEnv;
 use jni::objects::{JList, JObject, JString, JThrowable, JValue};
 use jni::signature::JavaType;
 use jni::signature::Primitive;
+use core::str::FromStr;
 use unic_langid::LanguageIdentifier;
+use unic_langid::subtags::{Language, Script, Region, Variant};
 
 mod value;
 mod bundle;
@@ -43,17 +45,26 @@ fn javastr_to_ruststr(env: &JNIEnv, string: JString) -> String {
 }
 
 fn locale_to_langid(env: &JNIEnv, locale: JObject) -> Option<LanguageIdentifier> {
-    let language = call_str_getter(env, &locale, "getLanguage");
-    let script = call_str_getter(env, &locale, "getScript");
-    let region = call_str_getter(env, &locale, "getCountry");
+    let language = call_str_getter(env, &locale, "getLanguage").map(|x| Language::from_str(&*x));
+    let script = call_str_getter(env, &locale, "getScript").map(|x| Script::from_str(&*x));
+    let region = call_str_getter(env, &locale, "getCountry").map(|x| Region::from_str(&*x));
     let variant = call_str_getter(env, &locale, "getVariant");
-    let variants: Vec<String> = match variant {
-        Some(v) => vec![v],
-        None => vec![]
+    let variants = match variant {
+        Some(v) => if let Ok(parsed) = Variant::from_str(&*v) {
+            Ok(vec![parsed])
+        } else {
+            Err(())
+        },
+        None => Ok(vec![])
     };
-    if let Ok(id) = LanguageIdentifier::from_parts(language, script, region,
-                                                   variants.as_slice()) {
-        Some(id)
+
+    if language.is_some()
+        && variants.is_ok()
+        && (script.is_none() || (&script).as_ref().unwrap().is_ok())
+        && (region.is_none() || (&region).as_ref().unwrap().is_ok()) {
+        Some(LanguageIdentifier::from_parts(
+            language.unwrap().unwrap(), script.map(Result::unwrap),
+        region.map(Result::unwrap), variants.unwrap().as_slice()))
     } else {
         let exception = env.new_object(
             "io/github/javidaloca/InvalidLocaleException",

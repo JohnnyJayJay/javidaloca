@@ -6,7 +6,11 @@ package io.github.javidaloca;
 abstract class RustObject {
 
   static {
-    System.loadLibrary("fluentbindings");
+    try {
+      System.loadLibrary("fluentbindings");
+    } catch (UnsatisfiedLinkError e) {
+      // TODO load from jar
+    }
   }
 
   private long pointer;
